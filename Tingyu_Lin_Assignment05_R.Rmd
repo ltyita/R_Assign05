@@ -32,3 +32,27 @@ Hyperlink: https://github.com/ltyita/R_Assignment05.git
 source("ticket_APIkey.R")
 
 ```
+
+
+### Ecercise 7
+
+```{r}
+
+# Exercise (7)
+# first GET request that searches for event venues in Germany
+API_DE <- GET("https://app.ticketmaster.com/discovery/v2/venues.json?",
+                   query = list("countryCode" = "DE",
+                                "apikey" = api_key)) 
+
+# extract content
+API_decontent <- content(API_DE)
+
+# number of page and observation
+n <- as.data.frame(API_decontent[["page"]])
+
+
+
+```
+
+From data frame, it suggests that each page contains 20 observations, and there are `r n$Elements` events in Germany, which make them `r n$totalPages`-page long. And we are currently at page 0.
+
