@@ -295,3 +295,18 @@ map_EStreme <- map_ES + geom_point(data=ex9_ES,
 map_EStreme
 
 ```
+
+
+### Exercise 11
+
+```{r}
+
+# Exercise 11 (w/o faulty location) Spain
+ex9_ES$latitude[ex9_ES$latitude <= 27.633 | ex9_ES$latitude >= 43.783] <- NA
+ex9_ES$longitude[ex9_ES$longitude <= -18.15 | ex9_ES$longitude >= 4.317] <- NA
+
+map_n_EStreme <- map_ES + geom_point(data=ex9_ES,
+                                     aes(x=longitude, y=latitude))
+
+map_n_EStreme
+```
