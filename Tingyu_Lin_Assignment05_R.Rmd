@@ -154,3 +154,24 @@ venue_page <- function(page, country_name){
 
 
 ```
+
+
+### Exercise 9
+
+
+```{r}
+# exercise 9 call function
+country_de <- vector("character", API_decontent$page$totalPages)
+country_de[1:length(country_de)] <- "DE"
+ex9_page <- map2_dfr(0:(API_decontent$page$totalPages-1), country_de, venue_page)
+
+```
+
+```{r}
+# ex 9 first 10 rows
+DE_head <- head(ex9_page, 10)
+DE_head
+# shape
+dim(ex9_page)
+
+```
