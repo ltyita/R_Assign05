@@ -244,3 +244,22 @@ n_ES <- as.data.frame(API_EScontent[["page"]])
 ```
 
 From data frame, it suggests that each page contains 20 observations, and there are `r n_ES$Elements` events in Spain, which make them `r n_ES$totalPages`-page long. And we are currently at page 0.
+
+### Exercise 9
+
+```{r}
+
+# Exercise 9
+# call function
+country_ES <- vector("character", API_EScontent$page$totalPages)
+country_ES[1:length(country_ES)] <- "ES"
+ex9_ES <- map2_dfr(0:(API_EScontent$page$totalPages-1), country_ES, venue_page)
+
+# ex 9 first 10 rows
+ES_head <- head(ex9_ES, 10)
+ES_head
+# shape
+dim(ex9_ES)
+
+
+```
