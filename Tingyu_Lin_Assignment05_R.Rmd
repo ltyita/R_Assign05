@@ -8,3 +8,27 @@ date: "2023-01-28"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, warning=FALSE, message=FALSE}
+# load packages
+
+rm(list = ls())
+
+library(jsonlite)
+library(httr)
+library(rlist)
+library(tidyverse)
+library(ggplot2)
+library(maps)
+
+```
+
+
+### Ecercise 4
+Hyperlink: https://github.com/ltyita/R_Assignment05.git
+
+```{r}
+
+# Exercise (6) import api key
+source("ticket_APIkey.R")
+
+```
