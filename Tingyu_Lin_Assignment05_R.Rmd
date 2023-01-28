@@ -175,3 +175,34 @@ DE_head
 dim(ex9_page)
 
 ```
+
+
+### Exercise 10
+
+```{r}
+
+# Exercise 10 (with faulty location)
+# prepare for the graph
+ex9_page$longitude <- as.numeric(ex9_page$longitude)
+ex9_page$latitude <- as.numeric(ex9_page$latitude)
+ex9_page$latitude[ex9_page$latitude == 0] <- NA
+ex9_page$longitude[ex9_page$longitude == 0] <- NA
+
+# create map of Germany
+map_germany <- ggplot() +
+  borders("world", "Germany", colour = "black", fill = "grey90") +
+  theme_void() +
+  coord_quickmap() +
+  labs(title = "Event locations across Germany",
+       caption = "Source: ticketmaster.com") +
+  theme(title = element_text(size=8, face='bold'),
+        plot.caption = element_text(face = "italic"))
+
+
+# add points on the map
+map_extreme <- map_germany + geom_point(data=ex9_page,
+                                        aes(x=longitude, y=latitude)) 
+
+
+map_extreme
+```
