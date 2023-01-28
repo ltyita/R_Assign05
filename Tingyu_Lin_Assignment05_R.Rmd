@@ -24,7 +24,7 @@ library(maps)
 
 
 ### Ecercise 4
-Hyperlink: https://github.com/ltyita/R_Assignment05.git
+https://github.com/ltyita/R_Assign05.git
 
 ```{r}
 
@@ -88,5 +88,69 @@ for (i in 1:20){
                      ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$location$latitude),
                             NA, API_decontent$`_embedded`["venues"][[1]][[i]]$location$latitude))
 }
+
+```
+
+
+```{r}
+
+# Exercise (9) iterate every page
+
+
+venue_page <- function(page, country_name){
+  Sys.sleep(.3)
+  API_DE_page <- GET("https://app.ticketmaster.com/discovery/v2/venues.json?",
+                query = list("page" = page,
+                             "countryCode" = country_name,
+                             "apikey" = api_key)) 
+  content_page <- content(API_DE_page)
+  
+  test_page <- content_page$page$totalPages
+  
+  # while loop to prevent the error occurred (make sure the positive value of test_page)
+  while (is.null(test_page)){
+    API_DE_page <- NULL
+    API_DE_page <- GET("https://app.ticketmaster.com/discovery/v2/venues.json?",
+                       query = list("page" = page,
+                                    "countryCode" = "DE",
+                                    "apikey" = api_key))
+    content_page <- NULL
+    content_page <- content(API_DE_page)
+    test_page <- content_page$page$totalPages
+  }
+  test_page <- (test_page - 1)
+  # no. of obs in each page
+  k <- length(content_page$`_embedded`[["venues"]]) %>% as.numeric()
+  
+  # only the last page that gets value less than 20 obs.
+  m <- ifelse(page == test_page, k, 20) %>% as.numeric()
+
+  # create an empty data frame
+  test1 <- data.frame()
+  
+  # loop trough the obs. in each page
+  for (i in 1:m){
+    test1 <- test1 %>% rbind(c(ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$name),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$name),
+                               ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$city$name),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$city$name),
+                               ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$postalCode),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$postalCode),
+                               ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$address$line1),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$address$line1),
+                               ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$url),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$url),
+                               ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$location$longitude),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$location$longitude),
+                               ifelse(is.null(content_page$`_embedded`["venues"][[1]][[i]]$location$latitude),
+                                      NA, content_page$`_embedded`["venues"][[1]][[i]]$location$latitude)))
+  }
+  # change col. names
+  colnames(test1) <- c("name", "city", "postalCode", "address", 
+                           "url", "longitude", "latitude")
+  #API_DE_page <- NULL
+  return(test1)
+}
+
 
 ```
