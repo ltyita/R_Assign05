@@ -56,3 +56,37 @@ n <- as.data.frame(API_decontent[["page"]])
 
 From data frame, it suggests that each page contains 20 observations, and there are `r n$Elements` events in Germany, which make them `r n$totalPages`-page long. And we are currently at page 0.
 
+
+
+### Exercise 8
+
+```{r}
+
+# Exercise (8)
+# make the first 20 obs as a data frame that contains name, the city, the postalCode and address, 
+# as well as the url and the longitude and latitude. 
+
+# create an empty data frame dim: 20X7
+de_venues <- data.frame(matrix(NA, nrow = 20, ncol = 7))
+colnames(de_venues) <- c("name", "city", "postalCode", "address", 
+                         "url", "longitude", "latitude")
+
+
+for (i in 1:20){
+  de_venues[i,] <- c(ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$name), 
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$name),
+                     ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$city$name),
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$city$name),
+                     ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$postalCode),
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$postalCode),
+                     ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$address$line1),
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$address$line1),
+                     ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$url),
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$url),
+                     ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$location$longitude),
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$location$longitude),
+                     ifelse(is.null(API_decontent$`_embedded`["venues"][[1]][[i]]$location$latitude),
+                            NA, API_decontent$`_embedded`["venues"][[1]][[i]]$location$latitude))
+}
+
+```
