@@ -221,3 +221,26 @@ map_n_extreme <- map_germany + geom_point(data=ex9_page,
 
 map_n_extreme
 ```
+
+
+### Another Country: Spain
+Redo ex9-ex11.
+
+
+```{r}
+
+# General info about Spain 
+
+API_ES <- GET("https://app.ticketmaster.com/discovery/v2/venues.json?",
+              query = list("countryCode" = "ES",
+                           "apikey" = api_key)) 
+
+# extract content
+API_EScontent <- content(API_ES)
+
+# number of page and observation
+n_ES <- as.data.frame(API_EScontent[["page"]])
+
+```
+
+From data frame, it suggests that each page contains 20 observations, and there are `r n_ES$Elements` events in Spain, which make them `r n_ES$totalPages`-page long. And we are currently at page 0.
