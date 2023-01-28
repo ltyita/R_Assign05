@@ -263,3 +263,35 @@ dim(ex9_ES)
 
 
 ```
+
+
+### Exercise 10
+
+
+```{r}
+
+# Exercise 10 (with faulty location) / Spain
+# prepare for the graph
+ex9_ES$longitude <- as.numeric(ex9_ES$longitude)
+ex9_ES$latitude <- as.numeric(ex9_ES$latitude)
+ex9_ES$latitude[ex9_ES$latitude == 0] <- NA
+ex9_ES$longitude[ex9_ES$longitude == 0] <- NA
+
+# create map of Spain
+map_ES <- ggplot() +
+  borders("world", "Spain", colour = "black", fill = "grey90") +
+  theme_void() +
+  coord_quickmap() +
+  labs(title = "Event locations across Spain",
+       caption = "Source: ticketmaster.com") +
+  theme(title = element_text(size=8, face='bold'),
+        plot.caption = element_text(face = "italic"))
+
+
+
+map_EStreme <- map_ES + geom_point(data=ex9_ES,
+                                   aes(x=longitude, y=latitude)) 
+
+map_EStreme
+
+```
