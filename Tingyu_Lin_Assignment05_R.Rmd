@@ -206,3 +206,18 @@ map_extreme <- map_germany + geom_point(data=ex9_page,
 
 map_extreme
 ```
+
+
+### Exercise 11
+
+```{r}
+
+# Exercise 11 (w/o faulty location)
+ex9_page$latitude[ex9_page$latitude <= 47.270 | ex9_page$latitude >= 55.059] <- NA
+ex9_page$longitude[ex9_page$longitude <= 5.866 | ex9_page$longitude >= 15.042] <- NA
+
+map_n_extreme <- map_germany + geom_point(data=ex9_page,
+                                          aes(x=longitude, y=latitude))
+
+map_n_extreme
+```
